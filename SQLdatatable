@@ -1,0 +1,480 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.1
+-- Dumped by pg_dump version 13.1
+
+-- Started on 2021-01-15 22:55:14 GMT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+DROP DATABASE vehicleanddriver;
+--
+-- TOC entry 3292 (class 1262 OID 16388)
+-- Name: vehicleanddriver; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE vehicleanddriver WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'en_US.UTF-8';
+
+
+ALTER DATABASE vehicleanddriver OWNER TO postgres;
+
+\connect vehicleanddriver
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 205 (class 1259 OID 16408)
+-- Name: address; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.address (
+    address_id integer NOT NULL,
+    street_name character varying NOT NULL,
+    city character varying NOT NULL,
+    postcode character varying NOT NULL
+);
+
+
+ALTER TABLE public.address OWNER TO postgres;
+
+--
+-- TOC entry 204 (class 1259 OID 16406)
+-- Name: address_address_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.address ALTER COLUMN address_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.address_address_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    MAXVALUE 10000
+    CACHE 1
+);
+
+
+--
+-- TOC entry 201 (class 1259 OID 16391)
+-- Name: driver; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.driver (
+    driver_id integer NOT NULL,
+    first_name character varying NOT NULL,
+    last_name character varying NOT NULL,
+    dob date NOT NULL,
+    phone_number character varying(11) NOT NULL,
+    address_id integer NOT NULL,
+    CONSTRAINT birthdayconstraint CHECK ((dob > '1900-01-01'::date)),
+    CONSTRAINT birthdayconstraintnotborn CHECK ((dob < '2022-01-01'::date))
+);
+
+
+ALTER TABLE public.driver OWNER TO postgres;
+
+--
+-- TOC entry 200 (class 1259 OID 16389)
+-- Name: driver_driver_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.driver ALTER COLUMN driver_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.driver_driver_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    MAXVALUE 10000
+    CACHE 1
+);
+
+
+--
+-- TOC entry 203 (class 1259 OID 16398)
+-- Name: vehicle; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.vehicle (
+    vehicle_id integer NOT NULL,
+    make character varying NOT NULL,
+    model character varying NOT NULL,
+    reg_plate character varying NOT NULL,
+    sorn boolean NOT NULL,
+    road_tax date NOT NULL
+);
+
+
+ALTER TABLE public.vehicle OWNER TO postgres;
+
+--
+-- TOC entry 206 (class 1259 OID 16432)
+-- Name: vehicle_owner; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.vehicle_owner (
+    driver_id integer NOT NULL,
+    vehicle_id integer NOT NULL
+);
+
+
+ALTER TABLE public.vehicle_owner OWNER TO postgres;
+
+--
+-- TOC entry 202 (class 1259 OID 16396)
+-- Name: vehicle_vehicle_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.vehicle ALTER COLUMN vehicle_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.vehicle_vehicle_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    MAXVALUE 10000
+    CACHE 1
+);
+
+
+--
+-- TOC entry 3285 (class 0 OID 16408)
+-- Dependencies: 205
+-- Data for Name: address; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (5, 'lord', 'meme', 'sa10 3rb');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (7, 'Test Street', 'Nowhere', 'NW1 0Z');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (78, '1153 Sed Rd.', 'Udaipur', 'MP9K 8AV');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (79, 'Ap #256-7539 Nulla Av.', 'Ourense', 'I7 2MS');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (80, '749-1436 Ligula Ave', 'Maple Ridge', 'X4 0GW');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (81, '7443 Ac, Rd.', 'Kessenich', 'LW1 2WE');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (82, '5154 Arcu. St.', 'Wrigley', 'MV5 9FQ');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (83, 'Ap #885-4016 Fermentum Rd.', 'Wilhelmshaven', 'F0J 0QL');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (84, 'Ap #715-4517 Velit St.', 'Geelong', 'IJ4Y 8LL');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (85, '608-3544 Sagittis St.', 'Logan City', 'SY8 1UU');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (86, '5175 Interdum. Street', 'East Gwillimbury', 'D61 3JK');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (87, 'Ap #992-5131 Porttitor Rd.', 'Timon', 'ED5 8WN');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (88, '153-5187 Aliquet. Road', 'Bhuj', 'C5W 9AL');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (89, 'Ap #833-5250 Ac Rd.', 'Tiel', 'S27 5MF');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (90, '7533 Dolor. Road', 'LaSalle', 'XC9 1EJ');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (91, '1274 Enim Ave', 'Loy', 'T0A 9VN');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (92, 'P.O. Box 975, 2871 Arcu. Ave', 'Monghidoro', 'M5 4LP');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (93, '5416 Odio Rd.', 'Tirrases', 'V04 6YI');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (94, 'P.O. Box 897, 441 Nunc Avenue', 'Allappuzha', 'DD19 6RI');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (95, '7612 Nunc St.', 'Bolinne', 'AU4U 9JC');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (96, '472-108 Quisque Ave', 'San Lorenzo Nuovo', 'WP7 6AP');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (97, 'Ap #198-7868 Suscipit, Ave', 'Haddington', 'SM05 9XX');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (98, 'Ap #401-6372 Nulla Av.', 'Senftenberg', 'BS9Z 8IX');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (99, '218-5408 Ligula. St.', 'Antibes', 'C06 6OL');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (100, '2636 Tristique Road', 'Graven Grez-Doiceau', 'GX7 3EA');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (101, 'Ap #734-299 Dapibus Av.', 'Glovertown', 'T3 1UW');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (102, 'Ap #749-5240 Metus Road', 'Schwäbisch Gmünd', 'WG0I 1AE');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (103, 'P.O. Box 221, 6777 Mauris Road', 'Florenville', 'A7R 1TN');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (104, 'P.O. Box 199, 5245 A Rd.', 'Stoke-on-Trent', 'M05 3UL');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (105, '604-1940 Nulla St.', 'Valcourt', 'SZ6L 3BT');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (106, 'P.O. Box 105, 362 Accumsan Av.', 'Santo Stefano Quisquina', 'XM2 9MF');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (107, 'Ap #822-8549 Etiam St.', 'South Portland', 'H6 0DX');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (108, 'P.O. Box 459, 2426 Nec, St.', 'Shawville', 'NV66 8RI');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (109, 'Ap #460-3118 Nisl Ave', 'Portland', 'D8H 3WE');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (110, '1268 Magna. Road', 'Seevetal', 'V3Z 9KP');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (111, '336-2165 Amet Road', 'Marburg', 'K37 6HQ');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (112, 'P.O. Box 666, 4156 Tempus, Av.', 'Pierrefonds', 'AZ4P 9TT');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (113, '1700 Sed St.', 'Verdun', 'OG6 0KY');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (114, '376-1763 Adipiscing Avenue', 'Randazzo', 'RG4 6BO');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (115, '408-4164 Ornare Av.', 'Esterzili', 'WO8 4UZ');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (116, 'Ap #329-1779 Eleifend, Rd.', 'Rves', 'V6N 7YF');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (117, '977-3913 Posuere Road', 'Puerto Vallarta', 'WV7 8LP');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (118, 'P.O. Box 221, 2571 Donec Road', 'Tuktoyaktuk', 'SA89 3DE');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (119, '5344 Lorem Rd.', 'Marzabotto', 'S9W 1CJ');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (120, 'Ap #223-932 Non, St.', 'Peine', 'E8 0FL');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (121, 'Ap #886-7454 Non St.', 'Birmingham', 'RJ96 0FG');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (122, 'P.O. Box 257, 613 Ridiculus Av.', 'Lanark', 'DG57 4SW');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (123, '1279 Nunc Street', 'Pushkino', 'F24 4LZ');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (124, 'P.O. Box 925, 3538 Donec Ave', 'San Diego', 'ZT2W 3TW');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (125, '1530 Mi Avenue', 'Linkhout', 'Z86 6DO');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (126, 'P.O. Box 982, 1085 Interdum St.', 'Le Mans', 'SH67 8OP');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (127, 'P.O. Box 778, 888 Ac St.', 'Concón', 'KN8J 1AH');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (128, 'P.O. Box 995, 3100 Integer St.', 'Rouen', 'J25 8KJ');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (129, '345-8545 Neque Avenue', 'Kotli', 'M23 5BP');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (130, '4041 Interdum St.', 'Neuville', 'G0 0KX');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (131, '738-6954 Nunc St.', 'Ichtegem', 'Q9O 5XJ');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (132, 'P.O. Box 690, 8608 Bibendum St.', 'Brighton', 'O38 7GP');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (133, 'P.O. Box 123, 3308 Sem Road', 'Mount Pearl', 'UY37 1CY');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (134, '139-638 In, Rd.', 'Cannock', 'U71 2SP');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (135, 'Ap #755-7095 Nunc, Street', 'Forgaria nel Friuli', 'V6 8MO');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (136, 'P.O. Box 771, 2484 Et, Avenue', 'Town of Yarmouth', 'DQ1M 9AL');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (137, '9215 Lectus Rd.', 'Svobodny', 'H96 3XT');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (138, '606-9370 Duis Road', 'Velsk', 'IZ6 8SM');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (139, 'P.O. Box 465, 9867 Enim Street', 'Brucargo', 'A2 1ZE');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (140, '844-6667 Vulputate Av.', 'Mahbubnagar', 'N3 6QA');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (141, '323-4117 Vestibulum, Road', 'Merbes-le-Ch‰teau', 'Y9 2XS');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (142, '8180 At, Street', 'Filot', 'GI0S 8JD');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (143, 'Ap #212-2548 Semper Ave', 'Maria', 'WO8O 5FT');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (144, '6193 Magna Ave', 'Ranst', 'W77 2XR');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (145, '273-4973 Arcu Rd.', 'Rinconada', 'M97 9IN');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (146, 'Ap #470-7996 Tellus. Av.', 'Klemskerke', 'B7V 0HN');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (147, '809-4181 Tempor Rd.', 'Nampa', 'XX0H 2VD');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (148, '642-5754 Phasellus Road', 'Mjölby', 'F4E 1YX');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (149, 'Ap #692-3310 Libero. Road', 'Nemi', 'SO39 2YP');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (150, 'Ap #326-9782 Velit. St.', 'Chiquinquirá', 'MG32 6UQ');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (151, '708-5974 Cubilia St.', 'Mianwali', 'P5D 0IM');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (152, '6733 Cras St.', 'Appleby', 'CZ3L 6BR');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (153, '508-6029 Et Road', 'Vielsalm', 'ML6 9QU');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (154, 'Ap #139-5873 Quis Rd.', 'Etawah', 'AA84 3PD');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (155, '8849 Nunc Rd.', 'Selva di Cadore', 'IZ33 4OM');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (156, 'Ap #694-7690 Cum Rd.', 'Sibolga', 'P0I 6UX');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (157, '8191 Vitae, Street', 'San Giovanni Lipioni', 'Y0E 5MY');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (158, 'P.O. Box 535, 2305 Augue Rd.', 'Gillette', 'BH98 6IJ');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (159, '2762 Ac Road', 'Denny', 'SN2G 5IQ');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (160, '553-7208 Eu Avenue', 'Orléans', 'FX07 5FR');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (161, 'P.O. Box 518, 1465 Sodales Rd.', 'Roccasicura', 'RU5 0QF');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (162, '266-6397 Sodales St.', 'Oliver', 'NP2Z 4YB');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (163, 'P.O. Box 215, 4265 Etiam Avenue', 'Coassolo Torinese', 'CB62 1MM');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (164, '888-2582 Rhoncus. St.', 'Berwick', 'Y6 7ZJ');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (165, 'P.O. Box 614, 8277 Et, St.', 'Renfrew', 'GA1 2JE');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (166, '9022 Integer Road', 'Dietzenbach', 'QM67 3FY');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (167, 'Ap #225-9822 Integer Rd.', 'Omaha', 'ZI90 0TF');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (168, '329-2461 Dis St.', 'North Saanich', 'P76 2WC');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (169, '3859 Nulla Rd.', 'Ligny', 'N12 1OX');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (170, 'Ap #481-751 Augue Road', 'Concepción', 'X0Y 6QS');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (171, 'P.O. Box 543, 5505 Sociis Av.', 'Wilmington', 'W4 9SD');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (172, '4375 Magna Rd.', 'Ville de Maniwaki', 'XM5 1BL');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (173, '5903 Nibh St.', 'Güstrow', 'O18 3WA');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (174, '388-5809 Sollicitudin Rd.', 'Pessac', 'E8 3JE');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (175, 'Ap #419-9992 Mi Road', 'Buzenol', 'HK97 8XY');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (176, 'Ap #794-571 Risus. Av.', 'Cargovil', 'D1P 5NW');
+INSERT INTO public.address (address_id, street_name, city, postcode) OVERRIDING SYSTEM VALUE VALUES (177, 'P.O. Box 109, 4553 Ornare St.', 'Karachi', 'TC2J 2LJ');
+
+
+--
+-- TOC entry 3281 (class 0 OID 16391)
+-- Dependencies: 201
+-- Data for Name: driver; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (94, 'Nicolis', 'Evenden', '1999-08-28', '05856152864', 104);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (95, 'Raoul', 'Polding', '1957-10-17', '06137980120', 105);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (96, 'Hamil', 'Rylett', '1998-03-22', '03015861391', 106);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (97, 'Denys', 'Dow', '1975-09-19', '04103663290', 107);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (98, 'Abigale', 'Risby', '1961-12-24', '08255479733', 108);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (99, 'Reynard', 'Pounds', '1988-08-24', '04285573018', 109);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (100, 'Mufinella', 'Nardrup', '1993-11-14', '09897257437', 110);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (101, 'Fidelio', 'Twizell', '1950-04-02', '01721636465', 111);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (102, 'Waneta', 'Oldacre', '1966-10-22', '05844123272', 112);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (103, 'Sela', 'Ablott', '1971-07-27', '09049022749', 113);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (104, 'Matilda', 'Fenge', '1982-02-10', '02192734274', 114);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (105, 'Lexy', 'Plowes', '1993-07-15', '08058297919', 115);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (106, 'Alys', 'Deverall', '1959-04-24', '03410390942', 116);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (107, 'Kathi', 'Mateu', '1978-09-17', '07628063442', 117);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (108, 'Puff', 'Ellams', '1973-07-14', '06001712159', 118);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (109, 'Babb', 'Robecon', '1950-09-22', '06080704780', 119);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (110, 'Alia', 'Blakiston', '1972-09-11', '06539539399', 120);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (111, 'Bearnard', 'Wordesworth', '1956-10-08', '09818806362', 121);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (112, 'Loren', 'Geekin', '1959-04-04', '09000800166', 122);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (113, 'Leopold', 'O''Keefe', '1977-04-12', '03584413029', 123);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (114, 'Lorene', 'Dewerson', '1964-07-06', '08917985438', 124);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (115, 'Karyn', 'Bullough', '1972-04-18', '06265574949', 125);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (116, 'Etta', 'Longland', '1974-02-26', '08747698762', 126);
+INSERT INTO public.driver (driver_id, first_name, last_name, dob, phone_number, address_id) OVERRIDING SYSTEM VALUE VALUES (117, 'Ardeen', 'Halwill', '1980-05-13', '02898768139', 127);
+
+
+--
+-- TOC entry 3283 (class 0 OID 16398)
+-- Dependencies: 203
+-- Data for Name: vehicle; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (2, 'nissan', 'gtr', '123', true, '2021-01-10');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (5, 'buggatti', 'veyron', '4124', false, '2021-01-31');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (1, 'fords', 'fiesta', '1h1', true, '2022-02-01');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (22, 'Lincoln', 'LS', 'GfhuSPH9', true, '2023-01-17');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (23, 'Porsche', 'Cayman', 'ZmGTEfuM2', true, '2022-02-28');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (24, 'Acura', 'NSX', 'FwKoHqRUpz6Y', false, '2022-12-29');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (25, 'Ford', 'Aspire', 'U6keGrKK6', true, '2021-06-08');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (26, 'Pontiac', 'Trans Sport', 'Qilz68Kj', true, '2021-06-22');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (27, 'Cadillac', 'Seville', 'o6W4LD', true, '2023-05-01');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (28, 'Chevrolet', 'Express 2500', 'xoIiGEayQVV', true, '2023-10-03');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (29, 'Chevrolet', 'Sonic', 'UfQeB954e80N', true, '2023-05-27');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (30, 'MINI', 'Cooper', '5p9N8fZqDi', false, '2021-09-18');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (31, 'Hyundai', 'Elantra', 'P4ywbHe', true, '2022-07-16');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (32, 'Dodge', 'Neon', 'va9Up7', true, '2021-03-21');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (33, 'Toyota', 'Camry Hybrid', '32Pqh3o', false, '2022-05-06');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (34, 'Chrysler', 'Pacifica', 'NG8619QM7u', true, '2023-06-20');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (35, 'Mazda', 'MPV', '0Pvd2SuWev6', false, '2021-12-07');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (36, 'Buick', 'Hearse', '6QekV7Veu', false, '2023-08-11');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (37, 'Volkswagen', 'Type 2', 'CTJmABV', false, '2023-04-11');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (38, 'Dodge', 'Stealth', 'LLbFW1lK69', true, '2021-05-29');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (39, 'GMC', 'Suburban 2500', 'xzi829lO', true, '2021-10-16');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (40, 'GMC', 'Suburban 2500', 'qxyQNT', true, '2024-03-11');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (41, 'Honda', 'Odyssey', '9KWwLud', false, '2023-05-12');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (42, 'Buick', 'Regal', 'xpo3At', true, '2021-04-13');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (43, 'Chevrolet', 'Camaro', 'QD2VZG96nW', true, '2024-06-28');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (44, 'Mitsubishi', 'Galant', 'kuwDvT2AMSz', true, '2022-07-07');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (45, 'Mercedes-Benz', 'C-Class', 'STcLDGW', true, '2022-09-14');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (46, 'Infiniti', 'Q', 'M8cuZrCkpiJN', false, '2024-08-20');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (47, 'Dodge', 'Ram Van 3500', 'ap3Zyl', true, '2022-09-02');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (48, 'Ford', 'Explorer Sport', 'pAi265', true, '2024-10-01');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (49, 'Chevrolet', 'Classic', 'w5SFwkVvz', true, '2024-07-25');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (50, 'Mitsubishi', 'Montero', 'yyicYABc4t', true, '2022-07-28');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (51, 'Plymouth', 'Reliant', 'BRm4VJzB7pP', true, '2024-06-27');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (52, 'GMC', 'Yukon', '2s2gtRBf1qQv', false, '2021-07-28');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (53, 'Ford', 'Econoline E150', 'QLFIAv', false, '2023-05-27');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (54, 'Acura', 'TL', 'lgwNsDeljOz', true, '2022-08-24');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (55, 'Jeep', 'Patriot', 'oPyDYuQ', true, '2023-08-11');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (56, 'Dodge', 'Ram 1500', 'm5W7h46WD', false, '2022-12-28');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (57, 'Cadillac', 'DeVille', 'S6CBqXIT', false, '2022-09-15');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (58, 'Dodge', 'Intrepid', 'mqC2VAVlmtYy', false, '2024-03-04');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (59, 'Suzuki', 'SX4', 'ovPAJS8v', false, '2022-12-21');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (60, 'Pontiac', 'Grand Prix', '9yyEQ1055X', false, '2021-09-15');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (61, 'Ford', 'Contour', 'ZrRCtvRAButG', false, '2021-11-17');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (62, 'Mazda', 'MX-5', '0zk1OhHEf', false, '2021-10-18');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (63, 'BMW', '3 Series', 'NxLrOdhAk', false, '2022-04-02');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (64, 'Porsche', '911', 'jJbQss', true, '2024-03-20');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (65, 'Mitsubishi', 'Lancer Evolution', '3Fkj5AxQK', false, '2021-12-28');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (66, 'Buick', 'Park Avenue', '3fk4pLqY', false, '2022-09-18');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (67, 'Porsche', '944', 'tjh7lx5', true, '2023-12-16');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (68, 'Dodge', 'Ram Van 3500', 'amo0bP6', true, '2024-01-30');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (69, 'Ford', 'Escape', 'KQNR2uIbSm7', false, '2021-07-28');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (70, 'Acura', 'CL', 'EEHQ0QX6FE', false, '2022-08-30');
+INSERT INTO public.vehicle (vehicle_id, make, model, reg_plate, sorn, road_tax) OVERRIDING SYSTEM VALUE VALUES (71, 'Toyota', 'FJ Cruiser', 'GT3LTnOjIp', false, '2023-09-05');
+
+
+--
+-- TOC entry 3286 (class 0 OID 16432)
+-- Dependencies: 206
+-- Data for Name: vehicle_owner; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 3293 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: address_address_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.address_address_id_seq', 180, true);
+
+
+--
+-- TOC entry 3294 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: driver_driver_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.driver_driver_id_seq', 120, true);
+
+
+--
+-- TOC entry 3295 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: vehicle_vehicle_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.vehicle_vehicle_id_seq', 72, true);
+
+
+--
+-- TOC entry 3144 (class 2606 OID 16415)
+-- Name: address address_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.address
+    ADD CONSTRAINT address_pkey PRIMARY KEY (address_id);
+
+
+--
+-- TOC entry 3138 (class 2606 OID 16477)
+-- Name: driver check_phone_number; Type: CHECK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.driver
+    ADD CONSTRAINT check_phone_number CHECK (((phone_number)::text ~ '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'::text)) NOT VALID;
+
+
+--
+-- TOC entry 3140 (class 2606 OID 16395)
+-- Name: driver driver_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.driver
+    ADD CONSTRAINT driver_pkey PRIMARY KEY (driver_id);
+
+
+--
+-- TOC entry 3142 (class 2606 OID 16405)
+-- Name: vehicle vehicle_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.vehicle
+    ADD CONSTRAINT vehicle_pkey PRIMARY KEY (vehicle_id);
+
+
+--
+-- TOC entry 3145 (class 1259 OID 16440)
+-- Name: fki_driver_id_fk; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_driver_id_fk ON public.vehicle_owner USING btree (driver_id);
+
+
+--
+-- TOC entry 3146 (class 1259 OID 16446)
+-- Name: fki_vehicle_id_fk; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_vehicle_id_fk ON public.vehicle_owner USING btree (vehicle_id);
+
+
+--
+-- TOC entry 3147 (class 2606 OID 16471)
+-- Name: driver address_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.driver
+    ADD CONSTRAINT address_id_fk FOREIGN KEY (address_id) REFERENCES public.address(address_id) NOT VALID;
+
+
+--
+-- TOC entry 3148 (class 2606 OID 16435)
+-- Name: vehicle_owner driver_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.vehicle_owner
+    ADD CONSTRAINT driver_id_fk FOREIGN KEY (driver_id) REFERENCES public.driver(driver_id);
+
+
+--
+-- TOC entry 3149 (class 2606 OID 16441)
+-- Name: vehicle_owner vehicle_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.vehicle_owner
+    ADD CONSTRAINT vehicle_id_fk FOREIGN KEY (vehicle_id) REFERENCES public.vehicle(vehicle_id);
+
+
+-- Completed on 2021-01-15 22:55:14 GMT
+
+--
+-- PostgreSQL database dump complete
+--
+
